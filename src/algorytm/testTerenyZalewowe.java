@@ -12,8 +12,8 @@ public class testTerenyZalewowe {
 		
 		Algorytm_3 test3 = new Algorytm_3();
 		test3.Map();
-		test3.Calculation();
-		test3.Display();
+		Integer[][] calculation = test3.Calculation();
+		test3.Display(calculation);
 		
 		//wyswietlenie_tablicy wys = new wyswietlenie_tablicy();
 		//wys.wyswietlenie();

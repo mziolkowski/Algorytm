@@ -18,7 +18,7 @@ public class Algorytm_3 {
 	int length_tab;						//dlugosc tablicy
 	int width_tab;						//szerokosc tablicy
 
-	int groundHeight = 5;
+	int groundHeight = 15;
 	int maxPoziomWody = 10;
 	
 	Integer[][] tab1 = new Integer[3][3];
@@ -51,32 +51,29 @@ public class Algorytm_3 {
 		//Okreslenie wymiaru tablicy
 		if(rtwsp_geo_lat < lbwsp_geo_lat) {
 			do{
-				length_tab = length_tab + 1;
 				rtwsp_geo_lat++;
+				length_tab = length_tab + 1;
 			}while (rtwsp_geo_lat <= lbwsp_geo_lat);
 			
 		} else {
 			do{
+				lbwsp_geo_lat++;
 				length_tab = length_tab + 1;
-				lbwsp_geo_lat++;;
 			}while (lbwsp_geo_lat <= rtwsp_geo_lat);
 		}	
 		
 		if(rtwsp_geo_lon < lbwsp_geo_lon) {
 			do{
-				width_tab = width_tab + 1;
 				rtwsp_geo_lon++;
+				width_tab = width_tab + 1;
 			}while (rtwsp_geo_lon <= lbwsp_geo_lon);
 			
 		} else {
 			do{
-				width_tab = width_tab + 1;
 				lbwsp_geo_lon++;
+				width_tab = width_tab + 1;
 			}while (lbwsp_geo_lon <= rtwsp_geo_lon);
 		}	
-		
-		
-//		System.out.println("Twoja tablica ma wymiar " + netMap.length);
 		
 	}
 	
@@ -84,55 +81,74 @@ public class Algorytm_3 {
 	public Integer[][] Calculation() {
 		
 		tab1[1][1] = swsp_geo; //Przypisanie wysokosci zr. wody do P1
+		Integer[][] netMap = new Integer[length_tab - 1][width_tab - 1];
 		
-		Integer[][] netMap = new Integer[length_tab][width_tab];
-		
-		//
+		//Uzupelnienie tablicy losowymi liczbami
 		for(int i = 0; i <= netMap.length - 1; i++) { 
 			for(int j = 0; j <= netMap.length - 1; j++) {
-				netMap[i][j] = gen.nextInt(10) + 1;
+				netMap[i][j] = gen.nextInt(9) + 1;
 			}
 		}
 		
-			for(int i = 0; i <= tab1.length - 1; i++) { 
-				for(int j = 0; j <= tab1.length - 1; j++) {
-					if(swsp_geo < groundHeight) {
-						tab1[i][j] = swsp_geo;
-//						System.out.println("Teren nie jest zalany " + poziomWody + " " + i + " " + j);
-						swsp_geo += 10;
-					} else {
+		
+		netMap[slat][slon] = swsp_geo;
+//		System.out.println(tab1[1][1] + " " + netMap[slat][slon]);
+		
+		for(int i = 0; i <= netMap.length - 1; i++) {
+			for(int j = 0; j <= netMap.length - 1; j++) {
+				
+				if(netMap[slat - 1][slon - 1] <= swsp_geo) {
+					
+					for(int p = 0; p <= tab2.length - 1; p++) { 
+						for(int k = 0; k <= tab2[p].length - 1; k++) {
+								tab2[i][j] = netMap[slat - 1][slon - 1];
+//								if(tab2[i][j] == maxPoziomWody) break;	
+						}
+					}
+				} else {
+					tab1[i][j] = netMap[slat - 1][slon - 1];
+				}
+			}
+		}
+		
+//		
+//			for(int i = 0; i <= tab1.length - 1; i++) { 
+//				for(int j = 0; j <= tab1.length - 1; j++) {
+//					if(swsp_geo < groundHeight) {
+//						tab1[i][j] = swsp_geo;
+//						
+//					} else {
 //						for(int p = 0; p <= tab2.length - 1; p++) { 
 //							for(int k = 0; k <= tab2[p].length - 1; k++) {
 //									System.out.println("Teren jest zalany " + poziomWody + " " + i + " " + j);
-									tab2[i][j] = swsp_geo;
+//									tab2[i][j] = swsp_geo;
 //									if(tab2[i][j] == maxPoziomWody) break;
-//									poziomWody -=3;
-									
+//									
 //							}
 //						}
-					}
-				}
-			}
+//					}
+//				}
+//			}
 			return netMap;
 	}
 	
 	public void Display(Integer[][] netMap2) {
-//		
-//		System.out.println(" ");
-//		System.out.println("TABLICA 1 -  Teren nie zalany");
-//		for(int m = 0; m < tab1.length; m++) {
-//			for(int n = 0; n < tab1[m].length; n++) 
-//				System.out.print(tab1[m][n] + " ");
-//				System.out.println(" ");
-//		}
-//		
-//		System.out.println(" ");
-//		System.out.println("TABLICA 2 - teren zalany");
-//		for(int m = 0; m < tab2.length; m++) {
-//			for(int n = 0; n < tab2[m].length; n++) 
-//				System.out.print(tab2[m][n] + " ");
-//				System.out.println(" ");
-//		}
+		
+		System.out.println(" ");
+		System.out.println("TABLICA 1 -  Teren nie zalany");
+		for(int m = 0; m < tab1.length; m++) {
+			for(int n = 0; n < tab1[m].length; n++) 
+				System.out.print(tab1[m][n] + " ");
+				System.out.println(" ");
+		}
+		
+		System.out.println(" ");
+		System.out.println("TABLICA 2 - teren zalany");
+		for(int m = 0; m < tab2.length; m++) {
+			for(int n = 0; n < tab2[m].length; n++) 
+				System.out.print(tab2[m][n] + " ");
+				System.out.println(" ");
+		}
 		
 		System.out.println(" ");
 		System.out.println("TABLICA netMap");

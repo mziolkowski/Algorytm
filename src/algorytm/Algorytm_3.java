@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Algorytm_3 {
 	
-	int slat; 					// szerokosc geo. zr. wody
-	int slon;					// dlugosc geo. zr. wody
+	int slat; 							// szerokosc geo. zr. wody
+	int slon;							// dlugosc geo. zr. wody
 	int rtwsp_geo_lat;					// szerokosc geo. prawego-gornego rogu analizowanego obszaru
 	int rtwsp_geo_lon;					// dlugosc geo. prawego-gornego rogu analizowanego obszaru
 	int lbwsp_geo_lat;					// szerokosc geo. lewego-dolnego rogu analizowanego obszaru
@@ -24,18 +24,30 @@ public class Algorytm_3 {
 	Integer[][] tab1 = new Integer[3][3];
 	Integer[][] tab2 = new Integer[3][3];
 	
+	Scanner scan = new Scanner(System.in);
+	
 	public void Map() {
-		Scanner scan = new Scanner(System.in);
+		
+		//Wskazanie prawego-gornego punktu
 		System.out.println("Podaj szerokosc geograficzna prawego-gornego punktu");
 		rtwsp_geo_lat = scan.nextInt();
 		System.out.println("Podaj dlugosc geograficzna prawego-gornego punkty");
 		rtwsp_geo_lon = scan.nextInt();
 		
+		//Wskazanie lewego-dolnego punktu
 		System.out.println("Podaj szerokosc geograficzna lewego-dolnego punktu");
 		lbwsp_geo_lat = scan.nextInt();
 		System.out.println("Podaj dlugosc geograficzna lewego-dolnego punkty");
 		lbwsp_geo_lon = scan.nextInt();
 		
+		//Wskazanie punktu zr. wody
+		System.out.println("Podaj szerokosc geograficzna zr. wody z zakresu " + rtwsp_geo_lat + " " + lbwsp_geo_lat);
+		slat = scan.nextInt();
+		System.out.println("Podaj dlugosc geograficzna zr. wody z zakresu " + rtwsp_geo_lon + " " + lbwsp_geo_lon);
+		slon = scan.nextInt();
+		
+		
+		//Okreslenie wymiaru tablicy
 		if(rtwsp_geo_lat < lbwsp_geo_lat) {
 			do{
 				length_tab = length_tab + 1;
@@ -62,7 +74,6 @@ public class Algorytm_3 {
 			}while (lbwsp_geo_lon <= rtwsp_geo_lon);
 		}	
 		
-		//System.out.println(length_tab + " " + width_tab);
 		
 		
 		Integer[][] netMap = new Integer[length_tab][width_tab];
@@ -71,19 +82,23 @@ public class Algorytm_3 {
 	}
 	
 	public void Calculation() {
+		
+//		tab1[slat][slon] = swsp_geo; //Przypisanie do zr. wody wysokosci wody
+		
+		
 			for(int i = 0; i <= tab1.length - 1; i++) { 
 				for(int j = 0; j <= tab1.length - 1; j++) {
 					if(poziomWody < wysokoscTerenu) {
 						tab1[i][j] = poziomWody;
-						System.out.println("Teren nie jest zalany " + poziomWody + " " + i + " " + j);
+//						System.out.println("Teren nie jest zalany " + poziomWody + " " + i + " " + j);
 						poziomWody += 1;
 					} else {
 //						for(int p = 0; p <= tab2.length - 1; p++) { 
 //							for(int k = 0; k <= tab2[p].length - 1; k++) {
-									System.out.println("Teren jest zalany " + poziomWody + " " + i + " " + j);
+//									System.out.println("Teren jest zalany " + poziomWody + " " + i + " " + j);
 									tab2[i][j] = poziomWody;
-									//if(tab2[i][j] == maxPoziomWody) break;
-									poziomWody -=3;
+//									if(tab2[i][j] == maxPoziomWody) break;
+//									poziomWody -=3;
 									
 //							}
 //						}

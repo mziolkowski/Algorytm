@@ -2,7 +2,11 @@ package Moje;
 import java.io.File;
 import java.util.ArrayList;
 
-public class testTerenyZalewowe {
+import com.sun.javafx.css.CalculatedValue;
+
+public class testTerenyZalewowe extends Algorytm_4{
+	int slat;
+	int slon;
 	public static void main(String[] args) {
 //		Algorytm test = new Algorytm();
 //		test.MakeCalculations();
@@ -23,6 +27,7 @@ public class testTerenyZalewowe {
 		Integer[][] netMap_test = test4.NetMap();
 		Boolean[][] booleanNetMap_test = test4.BooleanNetMap();
 		ArrayList<Integer> list1_test = test4.CoordinateList();
+		
 		
 		test4.Calculation(netMap_test, list1_test, booleanNetMap_test);
 		test4.Display(netMap_test, booleanNetMap_test);

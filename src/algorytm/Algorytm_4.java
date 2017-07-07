@@ -122,6 +122,8 @@ public class Algorytm_4 {
 		}
 //		File plik_netMap = new File("C:\\Users\\User1\\Documents\\netMap_random.txt");
 //		PrintWriter save = new PrintWriter("C:\\Users\\User1\\Documents\\netMap_random.txt");
+		
+		netMap[slat][slon] = swsp_geo;
 		return netMap;
 	}
 	
@@ -160,31 +162,26 @@ public class Algorytm_4 {
 	public void Calculation(Integer[][] netMap3, ArrayList<Integer> list2, Boolean[][] bolleanNetMap3) {
 		
 		ArrayList<Integer> listOfPoints = new ArrayList<Integer>(16);
-		netMap3[slat][slon] = swsp_geo;
 		bolleanNetMap3[slat][slon] = true;
 		
-		for(int i = 0; i < list2.size() - 1; i += 2) {
-			
-			if(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)] < swsp_geo) {
+		for(int j = 0; j < 2; j++) {
+			for(int i = 0; i < list2.size() - 1; i += 2) {
 				
-				listOfPoints.add(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)]);
-				bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
-				
-			} else {
-				bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
+				if(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)] < swsp_geo) {
+					
+					listOfPoints.add(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)]);
+					bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
+										
+				} else {
+					bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
+				}
 			}
+			System.out.println(listOfPoints);
+			listOfPoints.removeAll(listOfPoints);
+			slat -= 1;
+			slon -= 1;
 		}
-		System.out.println(listOfPoints);
-		
 	}
-	
-	public void remover() {
-		
-	}
-	
-	public void DataSource() {
-		
-	}
-	 
+
 
 }

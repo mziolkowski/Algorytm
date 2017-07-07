@@ -11,15 +11,17 @@ public class Algorytm_3 {
 	int rtwsp_geo_lon;					// dlugosc geo. prawego-gornego rogu analizowanego obszaru
 	int lbwsp_geo_lat;					// szerokosc geo. lewego-dolnego rogu analizowanego obszaru
 	int lbwsp_geo_lon;					// dlugosc geo. lewego-dolnego rogu analizowanego obszaru
-	int swsp_geo = 2;				// wysokosc zr. wody
-	int hs;						// wysokosc poczatkowa zr. wody
-	int he;						// wysokosc koncowa zr. wody
-	int interwal = 2; 						// interwal przyrostu wody
+	int swsp_geo = 1;					// wysokosc zr. wody
+	int hs;								// wysokosc poczatkowa zr. wody
+	int he;								// wysokosc koncowa zr. wody
+	int interwal; 						// interwal przyrostu wody
 	int length_tab;						//dlugosc tablicy
 	int width_tab;						//szerokosc tablicy
+	int x = 1;
+	int y = 1;
 
-	int groundHeight = 15;
-	int maxPoziomWody = 10;
+//	int groundHeight = 15;
+//	int maxPoziomWody = 10;
 	
 	Integer[][] tab1 = new Integer[3][3];
 	Integer[][] tab2 = new Integer[3][3];
@@ -77,7 +79,6 @@ public class Algorytm_3 {
 		
 	}
 	
-	
 	public Integer[][] Calculation() {
 		
 		tab1[1][1] = swsp_geo; //Przypisanie wysokosci zr. wody do P1
@@ -94,22 +95,39 @@ public class Algorytm_3 {
 		netMap[slat][slon] = swsp_geo;
 //		System.out.println(tab1[1][1] + " " + netMap[slat][slon]);
 		
-		for(int i = 0; i <= netMap.length - 1; i++) {
-			for(int j = 0; j <= netMap.length - 1; j++) {
-				
-				if(netMap[slat - 1][slon - 1] <= swsp_geo) {
-					
+//		for(int i = 0; i < netMap.length - 1; i++) {
+//			for(int j = 0; j < netMap[i].length - 1; j++) {
+			do{
+				if(netMap[slat - x][slon - y] < swsp_geo) {
+					System.out.println(y);
 					for(int p = 0; p <= tab2.length - 1; p++) { 
 						for(int k = 0; k <= tab2[p].length - 1; k++) {
-								tab2[i][j] = netMap[slat - 1][slon - 1];
-//								if(tab2[i][j] == maxPoziomWody) break;	
+							tab2[p][k] = netMap[slat - 1][slon - 1];
+//							if(tab2[i][j] == maxPoziomWody) break;
+//							break;
 						}
+//						break;
 					}
 				} else {
-					tab1[i][j] = netMap[slat - 1][slon - 1];
+					for(int p = 0; p <= tab1.length - 1; p++) { 
+						for(int k = 0; k <= tab1[p].length - 1; k++) {
+							tab1[p][k] = netMap[slat - 1][slon - 1];
+//							break;
+						}
+//						break;
+					}
 				}
-			}
-		}
+				
+				if(y == 1) {
+					y--;
+				} else if(y == 0){
+					y += 2;
+				}
+				
+				interwal++;
+			} while(interwal <= 7);
+//			}
+//		}
 		
 //		
 //			for(int i = 0; i <= tab1.length - 1; i++) { 
@@ -133,7 +151,8 @@ public class Algorytm_3 {
 	}
 	
 	public void Display(Integer[][] netMap2) {
-		
+		System.out.println(y);
+
 		System.out.println(" ");
 		System.out.println("TABLICA 1 -  Teren nie zalany");
 		for(int m = 0; m < tab1.length; m++) {

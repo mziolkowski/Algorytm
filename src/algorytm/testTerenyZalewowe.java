@@ -13,7 +13,6 @@ public class testTerenyZalewowe extends Algorytm_4{
 		Algorytm_4 test4 = new Algorytm_4();
 		test4.CoordinateList();
 		test4.Map();
-		int i = 0;
 		
 		Integer[][] netMap_test = test4.NetMap();
 		Boolean[][] booleanNetMap_test = test4.BooleanNetMap();
@@ -22,10 +21,11 @@ public class testTerenyZalewowe extends Algorytm_4{
 		ArrayList<Integer> listOfPoints_test = test4.ListOfPoints();
 		
 		test4.Calculation(netMap_test, list1_test, wetList_test, booleanNetMap_test, listOfPoints_test);
+		
 		do{
 		test4.Calculation2(netMap_test, list1_test, wetList_test, booleanNetMap_test, listOfPoints_test);
-		i++;
 		}while(listOfPoints_test.isEmpty() == false && wetList_test.isEmpty() == false);
+		
 		test4.Display(netMap_test, booleanNetMap_test);
 		
 	}

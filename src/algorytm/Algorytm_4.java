@@ -192,22 +192,23 @@ public class Algorytm_4 {
 	public void Calculation(Integer[][] netMap3, ArrayList<Integer> list2, ArrayList<Integer> wetList2, Boolean[][] bolleanNetMap3, ArrayList<Integer> listOfPoints2) {
 		
 //		ArrayList<Integer> listOfPoints = new ArrayList<Integer>(16);
-		
-			for(int i = 0; i < list2.size() - 1; i += 2) {
-				bolleanNetMap3[slat][slon] = true;
+			bolleanNetMap3[slat][slon] = true;
+			
+			for(int i = 0; i < list2.size(); i += 2) {
+				
 				if(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)] < swsp_geo) {
 					
 					listOfPoints2.add(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)]);
 					wetList2.add(slat - list2.get(i));	//wps. X nowego zalanego punktu
-					wetList2.add(slat - list2.get(i + 1));	//wsp. Y nowego zalanego punktu
+					wetList2.add(slon - list2.get(i + 1));	//wsp. Y nowego zalanego punktu
 					bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
 										
 				} else {
 					bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
 				}
 			}
-			System.out.println(listOfPoints2);
-			System.out.println(wetList2);
+			System.out.println(listOfPoints2 + " Punkty zalane");
+			System.out.println(wetList2 + " Wspolrzedne X i Y zalanych punktow");
 			System.out.println(" ");			
 						
 
@@ -215,36 +216,41 @@ public class Algorytm_4 {
 	
 	public void Calculation2(Integer[][] netMap3, ArrayList<Integer> list2, ArrayList<Integer> wetList2, Boolean[][] bolleanNetMap3, ArrayList<Integer> listOfPoints2) {
 		
-		try {
 		slat = wetList2.get(0);
 		slon = wetList2.get(1);
 		listOfPoints2.remove(0);
+		wetList2.remove(1);
 		wetList2.remove(0);
-		wetList2.remove(0);
+//		bolleanNetMap3[slat][slon] = true;
 		
-		for(int i = 0; i < list2.size() - 1; i += 2) {
-			
-			if(bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] == false) {
-				if(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)] < swsp_geo) {
-					
-						listOfPoints2.add(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)]);
-						wetList2.add(slat - list2.get(i));
-						wetList2.add(slat - list2.get(i + 1));
+		for(int i = 0; i < list2.size(); i += 2) {
+			try {
+				if(bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] == false) {
+					if(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)] < swsp_geo) {
+						
+							listOfPoints2.add(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)]);
+							wetList2.add(slat - list2.get(i));
+							wetList2.add(slon - list2.get(i + 1));
+							bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
+					} else {
 						bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
+					}
+												
+				} else {
+					bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
 				}
-											
-			} else {
-				bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
+			}
+				
+			catch (ArrayIndexOutOfBoundsException e) {
+				System.out.println("Wyszedles po za obszar!");		
 				}
 			}
 		
 		System.out.println(listOfPoints2);
 		System.out.println(wetList2);
 		System.out.println(" ");
-		}
-		catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("Wyszedles po za obszar!");		
-			}
+		
+		
 	
 	}
 

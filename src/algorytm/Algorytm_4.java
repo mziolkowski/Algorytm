@@ -171,7 +171,19 @@ public class Algorytm_4 {
 	}
 	
 	
-	public void Display(Integer[][] netMap2, Boolean[][] booleanNetMap2) {
+	public String[][] WaterDirection() {
+			String[][] waterDirection = new String[length_tab - 1][width_tab - 1];
+		
+		//Uzupelnienie tablicy losowymi liczbami
+		for(int i = 0; i <= waterDirection.length - 1; i++) { 
+			for(int j = 0; j <= waterDirection.length - 1; j++) {
+				waterDirection[i][j] = "-";
+			}
+		}
+		return waterDirection;
+	}
+	
+	public void Display(Integer[][] netMap2, Boolean[][] booleanNetMap2, String[][] waterDirection2) {
 		System.out.println(" ");
 		System.out.println("TABLICA netMap");
 		for(int m = 0; m < netMap2.length; m++) {
@@ -187,12 +199,21 @@ public class Algorytm_4 {
 				System.out.print(booleanNetMap2[m][n] + " ");
 				System.out.println(" ");
 		}
+		
+		System.out.println(" ");
+		System.out.println("TABLICA WaterDirection");
+		for(int m = 0; m < waterDirection2.length; m++) {
+			for(int n = 0; n < waterDirection2[m].length; n++) 
+				System.out.print(waterDirection2[m][n] + " ");
+				System.out.println(" ");
+		}
 	}
 	
-	public void Calculation(Integer[][] netMap3, ArrayList<Integer> list2, ArrayList<Integer> wetList2, Boolean[][] bolleanNetMap3, ArrayList<Integer> listOfPoints2) {
+	public void Calculation(Integer[][] netMap3, ArrayList<Integer> list2, ArrayList<Integer> wetList2, Boolean[][] bolleanNetMap3, ArrayList<Integer> listOfPoints2, String[][] waterDirection2) {
 		
 //		ArrayList<Integer> listOfPoints = new ArrayList<Integer>(16);
 			bolleanNetMap3[slat][slon] = true;
+			waterDirection2[slat][slon] = "#";
 			
 			for(int i = 0; i < list2.size(); i += 2) {
 				
@@ -202,6 +223,7 @@ public class Algorytm_4 {
 					wetList2.add(slat - list2.get(i));	//wps. X nowego zalanego punktu
 					wetList2.add(slon - list2.get(i + 1));	//wsp. Y nowego zalanego punktu
 					bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
+					waterDirection2[slat - list2.get(i)][slon - list2.get(i + 1)] = "#";
 										
 				} else {
 					bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
@@ -214,7 +236,7 @@ public class Algorytm_4 {
 
 	}
 	
-	public void Calculation2(Integer[][] netMap3, ArrayList<Integer> list2, ArrayList<Integer> wetList2, Boolean[][] bolleanNetMap3, ArrayList<Integer> listOfPoints2) {
+	public void Calculation2(Integer[][] netMap3, ArrayList<Integer> list2, ArrayList<Integer> wetList2, Boolean[][] bolleanNetMap3, ArrayList<Integer> listOfPoints2, String[][] waterDirection2) {
 		
 		slat = wetList2.get(0);
 		slon = wetList2.get(1);
@@ -232,6 +254,7 @@ public class Algorytm_4 {
 							wetList2.add(slat - list2.get(i));
 							wetList2.add(slon - list2.get(i + 1));
 							bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
+							waterDirection2[slat - list2.get(i)][slon - list2.get(i + 1)] = "#";
 					} else {
 						bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
 					}

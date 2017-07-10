@@ -12,43 +12,40 @@ public class Algorytm_4 {
 	int rtwsp_geo_lon;					// dlugosc geo. prawego-dolnego rogu analizowanego obszaru
 	int lbwsp_geo_lat;					// szerokosc geo. lewego-gornego rogu analizowanego obszaru
 	int lbwsp_geo_lon;					// dlugosc geo. lewego-gornego rogu analizowanego obszaru
-	int swsp_geo = 5;					// wysokosc zr. wody
+	int swsp_geo;						// wysokosc zr. wody
 	int hs;								// wysokosc poczatkowa zr. wody
 	int he;								// wysokosc koncowa zr. wody
 	int interwal; 						// interwal przyrostu wody
 	int length_tab;						//dlugosc tablicy
 	int width_tab;						//szerokosc tablicy
-	int x = 1;
-	int y = 1;
 	int tmpSlat;
-	int tmpSlon;
-
-//	int groundHeight = 15;
-//	int maxPoziomWody = 10;
-	
+	int tmpSlon;	
 
 	Scanner scan = new Scanner(System.in);
 	Random gen = new Random();
 	
 	public void Map() {
 		
-		//Wskazanie prawego-gornego punktu
-		System.out.println("Podaj szerokosc geograficzna prawego-gornego punktu");
-		rtwsp_geo_lat = scan.nextInt();
-		System.out.println("Podaj dlugosc geograficzna prawego-gornego punkty");
-		rtwsp_geo_lon = scan.nextInt();
-		
 		//Wskazanie lewego-dolnego punktu
-		System.out.println("Podaj szerokosc geograficzna lewego-dolnego punktu");
+		System.out.println("Podaj szerokosc geograficzna lewego-gornego punktu");
 		lbwsp_geo_lat = scan.nextInt();
-		System.out.println("Podaj dlugosc geograficzna lewego-dolnego punkty");
+		System.out.println("Podaj dlugosc geograficzna lewego-gornego punkty");
 		lbwsp_geo_lon = scan.nextInt();
 		
+		//Wskazanie prawego-gornego punktu
+		System.out.println("Podaj szerokosc geograficzna prawego-dolnego punktu");
+		rtwsp_geo_lat = scan.nextInt();
+		System.out.println("Podaj dlugosc geograficzna prawego-dolnego punkty");
+		rtwsp_geo_lon = scan.nextInt();
+				
 		//Wskazanie punktu zr. wody
 		System.out.println("Podaj szerokosc geograficzna zr. wody z zakresu " + rtwsp_geo_lat + " " + lbwsp_geo_lat);
 		slat = scan.nextInt();
 		System.out.println("Podaj dlugosc geograficzna zr. wody z zakresu " + rtwsp_geo_lon + " " + lbwsp_geo_lon);
 		slon = scan.nextInt();
+		
+		System.out.println("Podaj wysokosc zród³a wody");
+		swsp_geo = scan.nextInt();
 		
 		
 		//Okreslenie wymiaru tablicy
@@ -78,6 +75,7 @@ public class Algorytm_4 {
 			}while (lbwsp_geo_lon <= rtwsp_geo_lon);
 		}
 		
+
 		for(int i = slat; i <= rtwsp_geo_lat; i++) {
 			tmpSlat += 1;
 		}
@@ -147,11 +145,9 @@ public class Algorytm_4 {
 		//Uzupelnienie tablicy losowymi liczbami
 		for(int i = 0; i <= netMap.length - 1; i++) { 
 			for(int j = 0; j <= netMap.length - 1; j++) {
-				netMap[i][j] = gen.nextInt(9) + 1;
+				netMap[i][j] = gen.nextInt(9);
 			}
 		}
-//		File plik_netMap = new File("C:\\Users\\User1\\Documents\\netMap_random.txt");
-//		PrintWriter save = new PrintWriter("C:\\Users\\User1\\Documents\\netMap_random.txt");
 		
 		netMap[slat][slon] = swsp_geo;
 		return netMap;
@@ -211,9 +207,8 @@ public class Algorytm_4 {
 	
 	public void Calculation(Integer[][] netMap3, ArrayList<Integer> list2, ArrayList<Integer> wetList2, Boolean[][] bolleanNetMap3, ArrayList<Integer> listOfPoints2, String[][] waterDirection2) {
 		
-//		ArrayList<Integer> listOfPoints = new ArrayList<Integer>(16);
 			bolleanNetMap3[slat][slon] = true;
-			waterDirection2[slat][slon] = "#";
+			waterDirection2[slat][slon] = "$";
 			
 			for(int i = 0; i < list2.size(); i += 2) {
 				
@@ -243,7 +238,7 @@ public class Algorytm_4 {
 		listOfPoints2.remove(0);
 		wetList2.remove(1);
 		wetList2.remove(0);
-//		bolleanNetMap3[slat][slon] = true;
+
 		
 		for(int i = 0; i < list2.size(); i += 2) {
 			try {

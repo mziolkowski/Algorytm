@@ -8,10 +8,10 @@ public class Algorytm_4 {
 	
 	int slat; 							// szerokosc geo. zr. wody
 	int slon;							// dlugosc geo. zr. wody
-	int rtwsp_geo_lat;					// szerokosc geo. prawego-gornego rogu analizowanego obszaru
-	int rtwsp_geo_lon;					// dlugosc geo. prawego-gornego rogu analizowanego obszaru
-	int lbwsp_geo_lat;					// szerokosc geo. lewego-dolnego rogu analizowanego obszaru
-	int lbwsp_geo_lon;					// dlugosc geo. lewego-dolnego rogu analizowanego obszaru
+	int rtwsp_geo_lat;					// szerokosc geo. prawego-dolnego rogu analizowanego obszaru
+	int rtwsp_geo_lon;					// dlugosc geo. prawego-dolnego rogu analizowanego obszaru
+	int lbwsp_geo_lat;					// szerokosc geo. lewego-gornego rogu analizowanego obszaru
+	int lbwsp_geo_lon;					// dlugosc geo. lewego-gornego rogu analizowanego obszaru
 	int swsp_geo = 5;					// wysokosc zr. wody
 	int hs;								// wysokosc poczatkowa zr. wody
 	int he;								// wysokosc koncowa zr. wody
@@ -20,6 +20,8 @@ public class Algorytm_4 {
 	int width_tab;						//szerokosc tablicy
 	int x = 1;
 	int y = 1;
+	int tmpSlat;
+	int tmpSlon;
 
 //	int groundHeight = 15;
 //	int maxPoziomWody = 10;
@@ -74,8 +76,24 @@ public class Algorytm_4 {
 				lbwsp_geo_lon++;
 				width_tab = width_tab + 1;
 			}while (lbwsp_geo_lon <= rtwsp_geo_lon);
-		}	
+		}
 		
+		for(int i = slat; i <= rtwsp_geo_lat; i++) {
+			tmpSlat += 1;
+		}
+		
+		for(int j = slon; j <= rtwsp_geo_lon; j++) {
+			tmpSlon += 1;
+		}
+		//Przesuniecie tabicy do wsp. 0,0
+		lbwsp_geo_lat = 0;
+		lbwsp_geo_lon = 0;
+		
+		rtwsp_geo_lat = lbwsp_geo_lat + width_tab;
+		rtwsp_geo_lon = lbwsp_geo_lon + length_tab;
+		
+		slat = rtwsp_geo_lat - tmpSlat;
+		slon = rtwsp_geo_lon - tmpSlon;
 	}
 	
 	
@@ -107,6 +125,18 @@ public class Algorytm_4 {
 		list1.add(1);
 		
 		return list1;
+	}
+	
+	//Tablica przechowywujaca wsp. punktow zalanych
+	public ArrayList<Integer> WetPoints() {
+		ArrayList<Integer> wetList = new ArrayList<Integer>(16);
+		return wetList;
+	}
+	
+	//Tablica przechowywujaca zalane punkty (wartosc punktu)
+	public ArrayList<Integer> ListOfPoints() {
+		ArrayList<Integer> listOfPoints = new ArrayList<Integer>(16);
+		return listOfPoints;
 	}
 	
 	
@@ -159,28 +189,63 @@ public class Algorytm_4 {
 		}
 	}
 	
-	public void Calculation(Integer[][] netMap3, ArrayList<Integer> list2, Boolean[][] bolleanNetMap3) {
+	public void Calculation(Integer[][] netMap3, ArrayList<Integer> list2, ArrayList<Integer> wetList2, Boolean[][] bolleanNetMap3, ArrayList<Integer> listOfPoints2) {
 		
-		ArrayList<Integer> listOfPoints = new ArrayList<Integer>(16);
-		bolleanNetMap3[slat][slon] = true;
+//		ArrayList<Integer> listOfPoints = new ArrayList<Integer>(16);
 		
-		for(int j = 0; j < 2; j++) {
 			for(int i = 0; i < list2.size() - 1; i += 2) {
-				
+				bolleanNetMap3[slat][slon] = true;
 				if(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)] < swsp_geo) {
 					
-					listOfPoints.add(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)]);
+					listOfPoints2.add(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)]);
+					wetList2.add(slat - list2.get(i));	//wps. X nowego zalanego punktu
+					wetList2.add(slat - list2.get(i + 1));	//wsp. Y nowego zalanego punktu
 					bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
 										
 				} else {
 					bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
 				}
 			}
-			System.out.println(listOfPoints);
-			listOfPoints.removeAll(listOfPoints);
-			slat -= 1;
-			slon -= 1;
+			System.out.println(listOfPoints2);
+			System.out.println(wetList2);
+			System.out.println(" ");			
+						
+
+	}
+	
+	public void Calculation2(Integer[][] netMap3, ArrayList<Integer> list2, ArrayList<Integer> wetList2, Boolean[][] bolleanNetMap3, ArrayList<Integer> listOfPoints2) {
+		
+		try {
+		slat = wetList2.get(0);
+		slon = wetList2.get(1);
+		listOfPoints2.remove(0);
+		wetList2.remove(0);
+		wetList2.remove(0);
+		
+		for(int i = 0; i < list2.size() - 1; i += 2) {
+			
+			if(bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] == false) {
+				if(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)] < swsp_geo) {
+					
+						listOfPoints2.add(netMap3[slat - list2.get(i)][slon - list2.get(i + 1)]);
+						wetList2.add(slat - list2.get(i));
+						wetList2.add(slat - list2.get(i + 1));
+						bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
+				}
+											
+			} else {
+				bolleanNetMap3[slat - list2.get(i)][slon - list2.get(i + 1)] = true;
+				}
+			}
+		
+		System.out.println(listOfPoints2);
+		System.out.println(wetList2);
+		System.out.println(" ");
 		}
+		catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("Wyszedles po za obszar!");		
+			}
+	
 	}
 
 

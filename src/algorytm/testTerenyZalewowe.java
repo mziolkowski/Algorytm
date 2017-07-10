@@ -1,5 +1,6 @@
 package Moje;
 import java.io.File;
+import java.net.Inet4Address;
 import java.util.ArrayList;
 
 import com.sun.javafx.css.CalculatedValue;
@@ -8,34 +9,25 @@ public class testTerenyZalewowe extends Algorytm_4{
 	int slat;
 	int slon;
 	public static void main(String[] args) {
-//		Algorytm test = new Algorytm();
-//		test.MakeCalculations();
-//		test.wyswietlenie();
-		
-//		Algorytm_2 test2 = new Algorytm_2();
-//		test2.MakeCalculations_2();
-		
-//		Algorytm_3 test3 = new Algorytm_3();
-//		test3.Map();
-//		Integer[][] calculation = test3.Calculation();
-//		test3.Display(calculation);
 		
 		Algorytm_4 test4 = new Algorytm_4();
 		test4.CoordinateList();
 		test4.Map();
+		int i = 0;
 		
 		Integer[][] netMap_test = test4.NetMap();
 		Boolean[][] booleanNetMap_test = test4.BooleanNetMap();
 		ArrayList<Integer> list1_test = test4.CoordinateList();
+		ArrayList<Integer> wetList_test = test4.WetPoints();
+		ArrayList<Integer> listOfPoints_test = test4.ListOfPoints();
 		
-		
-		test4.Calculation(netMap_test, list1_test, booleanNetMap_test);
+		test4.Calculation(netMap_test, list1_test, wetList_test, booleanNetMap_test, listOfPoints_test);
+		do{
+		test4.Calculation2(netMap_test, list1_test, wetList_test, booleanNetMap_test, listOfPoints_test);
+		i++;
+		}while(listOfPoints_test.isEmpty() == false && wetList_test.isEmpty() == false);
 		test4.Display(netMap_test, booleanNetMap_test);
 		
-		//wyswietlenie_tablicy wys = new wyswietlenie_tablicy();
-		//wys.wyswietlenie();
-		//File folder = new File("C:\\Users\\User1\\Documents\\DTED2");
-		//fileFromFolder(folder);
 	}
 
 
